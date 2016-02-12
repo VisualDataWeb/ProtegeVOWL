@@ -3,9 +3,9 @@ ProtégéVOWL
 
 Source code of the VOWL plugin for Protégé. 
 
-Note that ProtégéVOWL has some known bugs and does not implement all visual elements defined in the VOWL specification. A more complete implementation of VOWL 2 is provided by the web application [WebVOWL] (https://github.com/VisualDataWeb/WebVOWL)
+Note that ProtégéVOWL has some known bugs and does not implement all visual elements defined in the VOWL specification. A more complete implementation of VOWL is provided by the web application [WebVOWL] (https://github.com/VisualDataWeb/WebVOWL).
 
-See http://vowl.visualdataweb.org for more information on ProtégéVOWL and WebVOWL
+See http://vowl.visualdataweb.org for more information on ProtégéVOWL and WebVOWL.
 
 
 ### Ant Usage
