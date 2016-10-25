@@ -3,6 +3,8 @@ package graphModifier;
 import languages.LanguageGraphEN;
 import org.apache.log4j.Logger;
 import org.semanticweb.owlapi.model.*;
+//import org.semanticweb.owlapi.search.Searcher;
+import org.semanticweb.owlapi.search.EntitySearcher;
 import prefuse.data.Graph;
 import storage.GraphStorage;
 import types.EdgesType;
@@ -10,6 +12,7 @@ import types.OWLTypes;
 import types.PropertyType;
 
 import java.util.Set;
+import java.util.Collection;
 
 /**
  * This class transforms the OWL ontology to a graph.
@@ -113,7 +116,7 @@ public class TransformOWLtoGraph {
 			String owlVersionInfo = "";
 			String objectPropertyIRI = owlDataProp.getIRI().toString();
 
-			Set<OWLAnnotation> owlPropAnoSet = owlDataProp.getAnnotations(onto);
+			Collection<OWLAnnotation> owlPropAnoSet = EntitySearcher.getAnnotations(owlDataProp,onto);
 			for (OWLAnnotation owlPropAno : owlPropAnoSet) {
 				// extract data from owl:ObjectProperty
 				String checkFor = owlPropAno.getProperty().toString();
@@ -128,7 +131,7 @@ public class TransformOWLtoGraph {
 			}
 
 			// get the domain of the property
-			for (OWLClassExpression domain : owlDataProp.getDomains(onto)) {
+			for (OWLClassExpression domain : EntitySearcher.getDomains(owlDataProp,onto)) {
 				if (!domain.isAnonymous()) {
 					rdfsDomain = domain.asOWLClass().getIRI().toString();
 				} else {
@@ -141,7 +144,7 @@ public class TransformOWLtoGraph {
 				}
 			}
 			// get the range of the property
-			for (OWLDataRange domain : owlDataProp.getRanges(onto)) {
+			for (OWLDataRange domain : EntitySearcher.getRanges(owlDataProp,onto)) {
 				try {
 					rdfsRange = domain.asOWLDatatype().getIRI().toString();
 				} catch (OWLRuntimeException e) {
@@ -172,7 +175,7 @@ public class TransformOWLtoGraph {
 				isGenericLiteral = true;
 			}
 
-			IRI ontoIRI = onto.getOntologyID().getOntologyIRI();
+			IRI ontoIRI = onto.getOntologyID().getOntologyIRI().get();
 			if (ontoIRI == null && rdfsIsDefinedBy != null) {
 				ontoIRI = IRI.create(rdfsIsDefinedBy);
 			}
@@ -230,7 +233,7 @@ public class TransformOWLtoGraph {
 	                                     GraphDataModifier mod, String id) {
 		TransformOWLtoGraphUtilities tgu = new TransformOWLtoGraphUtilities();
 		for (OWLObjectProperty owlProp : OWLObjectPropertiesSet) {
-			Set<OWLAnnotation> owlPropAnoSet = owlProp.getAnnotations(onto);
+			Collection<OWLAnnotation> owlPropAnoSet = EntitySearcher.getAnnotations(owlProp,onto);
 			String rdfsDomain = "";
 			String rdfsRange = "";
 			String rdfsInversOf = "";
@@ -251,7 +254,7 @@ public class TransformOWLtoGraph {
 						owlVersionInfo);
 			}
 			// get the domain of the property
-			for (OWLClassExpression domain : owlProp.getDomains(onto)) {
+			for (OWLClassExpression domain : EntitySearcher.getDomains(owlProp,onto)) {
 				if (!domain.isAnonymous()) {
 					rdfsDomain = domain.asOWLClass().getIRI().toString();
 				} else {
@@ -264,7 +267,7 @@ public class TransformOWLtoGraph {
 				}
 			}
 			// get the range of the property
-			for (OWLClassExpression domain : owlProp.getRanges(onto)) {
+			for (OWLClassExpression domain : EntitySearcher.getRanges(owlProp,onto)) {
 				if (!domain.isAnonymous()) {
 					rdfsRange = domain.asOWLClass().getIRI().toString();
 				} else {
@@ -281,7 +284,7 @@ public class TransformOWLtoGraph {
 			// add blank space, avoid text runs out of the colored background (only an optic fix)
 			rdfsLabel = rdfsLabel.concat(" ");
 			// get the IRI of the object property which is inverse to 'this' object property
-			Set<OWLObjectPropertyExpression> OWLObjectPropertyExpressionSet = owlProp.getInverses(onto);
+			Collection<OWLObjectPropertyExpression> OWLObjectPropertyExpressionSet = EntitySearcher.getInverses(owlProp,onto);
 			for (OWLObjectPropertyExpression owlOPE : OWLObjectPropertyExpressionSet) {
 
 				rdfsInversOf = owlOPE.asOWLObjectProperty().getIRI().toString();
@@ -293,7 +296,7 @@ public class TransformOWLtoGraph {
 						// logger.info("old Range - " + rdfsRange);
 						// logger.info("old Domain - " + rdfsDomain);
 						if (rdfsRange == null || rdfsRange.isEmpty()) {
-							for (OWLClassExpression domain : owlProp.getRanges(onto)) {
+							for (OWLClassExpression domain : EntitySearcher.getRanges(owlProp,onto)) {
 								if (!domain.isAnonymous()) {
 									rdfsRange = domain.asOWLClass().getIRI().toString();
 								} else {
@@ -307,7 +310,7 @@ public class TransformOWLtoGraph {
 							}
 						}
 						if (rdfsDomain == null || rdfsDomain.isEmpty()) {
-							for (OWLClassExpression domain : owlProp.getDomains(onto)) {
+							for (OWLClassExpression domain : EntitySearcher.getDomains(owlProp,onto)) {
 								if (!domain.isAnonymous()) {
 									rdfsDomain = domain.asOWLClass().getIRI().toString();
 								} else {
@@ -337,7 +340,7 @@ public class TransformOWLtoGraph {
 				targetNodeID = -1;
 			}
 
-			IRI ontoIRI = onto.getOntologyID().getOntologyIRI();
+			IRI ontoIRI = onto.getOntologyID().getOntologyIRI().get();
 			if (ontoIRI == null && rdfsIsDefinedBy != null) {
 				ontoIRI = IRI.create(rdfsIsDefinedBy);
 			}
@@ -436,7 +439,7 @@ public class TransformOWLtoGraph {
 			String definedBy = "";
 			String owlVersion = "";
 			Boolean isDeprecated = false;
-			Set<OWLAnnotation> owl_class_annotationSET = owl_class.getAnnotations(onto);
+			Collection<OWLAnnotation> owl_class_annotationSET = EntitySearcher.getAnnotations(owl_class,onto);
 			for (OWLAnnotation owl_class_annotation : owl_class_annotationSET) {
 				// extract data from owl:Class
 				OWLAnnotationProperty owl_class_annotation_property = owl_class_annotation.getProperty();
@@ -461,7 +464,7 @@ public class TransformOWLtoGraph {
 				mod.addClassThingWithDetails(0, classID, className, classIRI, classComment, definedBy, owlVersion);
 			} else {
 				// check the namespace of the class if the class is imported or not
-				IRI ontoIRI = onto.getOntologyID().getOntologyIRI();
+				IRI ontoIRI = onto.getOntologyID().getOntologyIRI().get();
 				if (ontoIRI == null && definedBy != null) {
 					ontoIRI = IRI.create(definedBy);
 				}
@@ -472,7 +475,7 @@ public class TransformOWLtoGraph {
 					mod.addClass(classID, className, classIRI, classComment, definedBy, owlVersion, isDeprecated, isImported);
 				} else {
 					Boolean equivalentClassHasAlreadyBeenAdded = false;
-					for (OWLClassExpression equiClassExpression : owl_class.getEquivalentClasses(onto)) {
+					for (OWLClassExpression equiClassExpression : EntitySearcher.getEquivalentClasses(owl_class,onto)) {
 						if (!equiClassExpression.isAnonymous()) {
 							// check if one the equivalent classes has already been added to the graph
 							String equiClassIRI = equiClassExpression.asOWLClass().getIRI().toString();
@@ -489,7 +492,7 @@ public class TransformOWLtoGraph {
 					}
 					// no equival1ent class has been added yet -> add it
 					if (!equivalentClassHasAlreadyBeenAdded) {
-						for (OWLClassExpression equiClassExpression : owl_class.getEquivalentClasses(onto)) {
+						for (OWLClassExpression equiClassExpression : EntitySearcher.getEquivalentClasses(owl_class,onto)) {
 							if (!equiClassExpression.isAnonymous()) {
 								// take the first class with ontology namespace as equivalent class master
 								String equiClassIRI = equiClassExpression.asOWLClass().getIRI().toString();
@@ -500,7 +503,7 @@ public class TransformOWLtoGraph {
 									String classComment2 = "";
 									String definedBy2 = "";
 									String owlVersion2 = "";
-									Set<OWLAnnotation> owl_class_annotationSET2 = equiClassExpression.asOWLClass().getAnnotations(onto);
+									Collection<OWLAnnotation> owl_class_annotationSET2 = EntitySearcher.getAnnotations(equiClassExpression.asOWLClass(),onto);
 									Boolean isDeprecated2 = false;
 									for (OWLAnnotation owl_class_annotation : owl_class_annotationSET2) {
 										// extract data from owl:Class
@@ -542,7 +545,7 @@ public class TransformOWLtoGraph {
 									for (OWLEntity owl_class_entity : equiClassExpressionSignatureSet) {
 										String equiClassIRI = owl_class_entity.getIRI().toString();
 
-										Set<OWLAnnotation> owl_class_annotationSET2 = owl_class_entity.getAnnotations(onto);
+										Collection<OWLAnnotation> owl_class_annotationSET2 = EntitySearcher.getAnnotations(owl_class_entity,onto);
 										for (OWLAnnotation owl_class_annotation : owl_class_annotationSET2) {
 											// extract data from owl:Class
 											OWLAnnotationProperty owl_class_annotation_property2 = owl_class_annotation.getProperty();
@@ -578,7 +581,7 @@ public class TransformOWLtoGraph {
 
 			}
 			// check if class has a subclass relationship (yes -> add it to the graph)
-			for (OWLClassExpression subClassExpression : owl_class.getSubClasses(onto)) {
+			for (OWLClassExpression subClassExpression : EntitySearcher.getSubClasses(owl_class,onto)) {
 				if (!subClassExpression.isAnonymous()) {
 					String subClassURI = subClassExpression.asOWLClass().getIRI().toString();
 					// ignore subclass with the namespace of OWLClass Thing
