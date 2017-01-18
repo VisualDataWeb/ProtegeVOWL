@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+	
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+        
+        
+    <groupId>org.visualdataweb</groupId>
+    <artifactId>vowl</artifactId>
+    <version>0.1.4-SNAPSHOT</version>
+        
+        
+    <packaging>bundle</packaging>
+        
+    <name>Protege :: VOWL Plugin</name>
+    <description>a plugin for the Visual Notation for OWL Ontologies</description> 
+
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <protege.version>5.1.0</protege.version>
+        <owl.api.version>4.2.6</owl.api.version>
+        <log4j.version>1.2.14</log4j.version>
+    </properties>
+	
+    <dependencies>
+        <dependency>
+            <groupId>org.prefuse</groupId>
+            <artifactId>prefuse</artifactId>
+            <version>beta-20071021</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>edu.stanford.protege</groupId>
+            <artifactId>protege-common</artifactId>
+            <version>${protege.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.stanford.protege</groupId>
+            <artifactId>protege-editor-core</artifactId>
+            <version>${protege.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>edu.stanford.protege</groupId>
+            <artifactId>protege-editor-owl</artifactId>
+            <version>${protege.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.owlapi</groupId>
+            <artifactId>owlapi-osgidistribution</artifactId>
+            <version>${owl.api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>tablelayout</groupId>
+            <artifactId>tablelayout</artifactId>
+            <version>pre-1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>2.3.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-ClassPath>.</Bundle-ClassPath>
+                        <Bundle-SymbolicName>${project.artifactId};singleton:=true</Bundle-SymbolicName>
+                        <Bundle-Vendor>david bold</Bundle-Vendor>
+                        <Bundle-DocURL>http://vowl.visualdataweb.org/v1</Bundle-DocURL>
+                        <Import-Package>
+                            org.apache.log4j.*, 
+                            org.protege.editor.core.*;version="5.1.0",
+                            org.protege.editor.owl.*;version="5.1.0",
+                            example.*;version="pre-1.0.0",
+                            layout.*;version="pre-1.0.0",
+                            support.*;version="pre-1.0.0",
+                            prefuse.*;version="beta-20071021",
+                            *
+                        </Import-Package>
+                        <Include-Resource>{maven-resources}</Include-Resource>
+                        <Private-Package>${project.artifactId}</Private-Package>
+                    </instructions>
+                    <executions>
+                        <execution>
+                            <id>bundle-manifest</id>
+                            <phase>process-classes</phase>
+                            <goals>    
+                                <goal>manifest</goal>
+                            </goals>   
+                        </execution>
+                    </executions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <pde>true</pde>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <!-- tablelayout -->
+    <repositories>
+        <repository>
+            <id>local-repo</id>
+            <url>file:///${project.basedir}/local-mvn-repo/</url>
+        </repository>
+    </repositories>
+    
+</project>
