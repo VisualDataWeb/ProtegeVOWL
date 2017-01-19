@@ -16,7 +16,7 @@
         
     <packaging>bundle</packaging>
         
-    <name>Protege :: VOWL Plugin</name>
+    <name>VOWL Plugin</name>
     <description>a plugin for the Visual Notation for OWL Ontologies</description> 
 
 
@@ -83,7 +83,8 @@
                 <configuration>
                     <instructions>
                         <Bundle-ClassPath>.</Bundle-ClassPath>
-                        <Bundle-SymbolicName>${project.artifactId};singleton:=true</Bundle-SymbolicName>
+                        <Bundle-SymbolicName>protege;singleton:=true</Bundle-SymbolicName>
+                        <Bundle-Category>protege</Bundle-Category>
                         <Bundle-Vendor>david bold</Bundle-Vendor>
                         <Bundle-DocURL>http://vowl.visualdataweb.org/v1</Bundle-DocURL>
                         <Bundle-Activator>org.protege.editor.core.plugin.DefaultPluginActivator</Bundle-Activator>
@@ -116,14 +117,13 @@
                             org.xml.sax.helpers,
                             javax.xml.parsers,
                             com.google.common.base,
-                            org.protege.editor.core.plugin.*,
-                            prefuse.*,
-                            example.*,
-                            layout.*,
-                            support.*
+                            org.protege.editor.core.plugin
                         </Import-Package>
-                        <Include-Resource>{maven-resources}</Include-Resource>
-                        <Private-Package>${project.artifactId}</Private-Package>
+                        <Include-Resource>src/main/resources/plugin.xml, {maven-resources}</Include-Resource>
+                        <Embed-Dependency>
+                            tablelayout,
+                            prefuse
+                        </Embed-Dependency>
                         <Require-Bundle>
                             org.eclipse.equinox.registry,
                             org.eclipse.equinox.common,
