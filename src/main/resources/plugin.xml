@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+	<!-- VOWL Graph Viewer -->
+	<extension
+			id="VOWLViewComponent"
+			point="org.protege.editor.core.application.ViewComponent">
+		<label value="VOWL Viewer"/>
+		<class value="org.visualdataweb.vowl.protege.VOWLViewComponent"/>
+		<category value="@org.protege.ontologycategory"/>
+	</extension>
+
+	<!-- VOWL Sidebar View-->
+	<extension
+			id="VOWLSideBarComponent"
+			point="org.protege.editor.core.application.ViewComponent">
+		<label value="VOWL Sidebar"/>
+		<class value="org.visualdataweb.vowl.protege.VOWLSideBarComponent"/>
+		<category value="@org.protege.ontologycategory"/>
+	</extension>
+
+	<!-- VOWL Viewer Controls  -->
+	<extension
+			id="VOWLControlViewComponent"
+			point="org.protege.editor.core.application.ViewComponent">
+		<label value="VOWL Controls"/>
+		<class value="org.visualdataweb.vowl.protege.VOWLControlViewComponent"/>
+		<category value="@org.protege.ontologycategory"/>
+	</extension>
+
+	<!--
+			label value -> what to put into the title bar of the view
+			class value -> which class implements the functionality
+			category value -> which menu (from protege) under view menu should contain this view
+	 -->
+
+	<!-- VOWL Workspace Tab (Graph & Sidebar) -->
+	<extension
+			id="VOWLWorkspaceTab"
+			point="org.protege.editor.core.application.WorkspaceTab">
+		<label value="VOWL"/>
+		<class value="org.visualdataweb.vowl.protege.VOWLWorkspaceTab"/>
+		<index value="YZ"/>
+		<editorKitId value="OWLEditorKit"/>
+		<defaultViewConfigFileName value="org/visualdataweb/vowl/view/VOWLTab.xml"/>
+	</extension>
+
+</plugin>

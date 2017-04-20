@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+	<VSNode splits="0.3928562033032019 0.08384581413120903">
+		<HSNode splits="0.19642810165160096">
+			<CNode>
+				<Component label="VOWL Graph">
+					<Property id="pluginId" value="org.visualdataweb.vowl.protege.VOWLViewComponent"/>
+				</Component>
+			</CNode>
+		</HSNode>
+		<HSNode splits="0.009662609939828233 0.0022758502550066497">
+			<CNode>
+				<Component label="VOWL Sidebar">
+					<Property id="pluginId" value="org.visualdataweb.vowl.protege.VOWLSideBarComponent"/>
+				</Component>
+			</CNode>
+			<CNode>
+				<Component label="VOWL Viewer Controls">
+					<Property id="pluginId" value="org.visualdataweb.vowl.protege.VOWLControlViewComponent"/>
+				</Component>
+			</CNode>
+		</HSNode>
+	</VSNode>
+</layout>
