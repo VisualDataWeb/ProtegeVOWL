@@ -150,7 +150,34 @@
                     <pde>true</pde>
                 </configuration>
             </plugin>
+    		<plugin>
+	            <artifactId>maven-antrun-plugin</artifactId>
+	            <version>1.8</version>
+	            <executions>
+	                <execution>
+	                    <id>copy</id>
+	                    <phase>install</phase>
+	                    <configuration>
+	                        <target>
+	                            <echo>ANT TASK - Copy JAR to Protege</echo>
+	                            <copy todir="${protege.home}/plugins" overwrite="true" flatten="true">
+	                                <fileset dir="${basedir}" includes="*.bat" >
+	                                    <!-- multiple possible
+	                                    <include name="*.bat" />
+	                                    <include name="ReadME.*" /> -->
+	                                    <include name="target/*.jar" />
+	                                </fileset>
+	                            </copy>
+	                        </target>
+	                    </configuration>
+	                    <goals>
+	                        <goal>run</goal>
+	                    </goals>
+	                </execution>
+	            </executions>
+        	</plugin>
         </plugins>
+
     </build>
     
     <!-- tablelayout -->
