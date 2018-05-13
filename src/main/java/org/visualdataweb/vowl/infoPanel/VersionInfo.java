@@ -7,7 +7,7 @@ package org.visualdataweb.vowl.infoPanel;
  * @version 1.0
  */
 public class VersionInfo {
-	public static String VERSION_INFO = "Beta 0.1.3";
+	public static String VERSION_INFO = "Beta 0.1.4";
 	public static String HTTP_LINK = "http://vowl.visualdataweb.org";
 
 }
