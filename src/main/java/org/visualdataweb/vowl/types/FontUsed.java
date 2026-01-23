@@ -12,7 +12,7 @@ import java.awt.*;
  */
 public class FontUsed {
 
-	private static Font usedFont = FontLib.getFont("Helvetica", 10);
+	private static Font usedFont = FontLib.getFont("Dialog", 10);
 
 	/**
 	 * returns the used font
