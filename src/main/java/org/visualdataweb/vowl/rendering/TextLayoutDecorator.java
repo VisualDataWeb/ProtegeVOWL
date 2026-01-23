@@ -52,7 +52,7 @@ public class TextLayoutDecorator extends Layout {
 				int colorBlue = (Integer) decoratedItem.get(colorBlueColum);
 				int textSize = (Integer) decoratedItem.get(textSizeColum);
 				decorator.setTextColor(ColorLib.rgb(colorRed, colorGreen, colorBlue));
-				decorator.setFont(FontLib.getFont("Tahoma", textSize));
+				decorator.setFont(FontLib.getFont("Dialog", textSize));
 			}
 
 			/** NODES ONLY **/
