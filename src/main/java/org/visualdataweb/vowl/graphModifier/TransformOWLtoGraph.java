@@ -175,12 +175,12 @@ public class TransformOWLtoGraph {
 				isGenericLiteral = true;
 			}
 
-			IRI ontoIRI = onto.getOntologyID().getOntologyIRI().get();
+			IRI ontoIRI = onto.getOntologyID().getOntologyIRI().orNull();
 			if (ontoIRI == null && rdfsIsDefinedBy != null) {
 				ontoIRI = IRI.create(rdfsIsDefinedBy);
 			}
 
-			// add non generic literal node 
+			// add non generic literal node
 			mod.addPropertyNode(targetNodeID, rdfsRessourceType, rdfsRange, null, null, null, null, null, isGenericLiteral);
 
 			if (sourceNodeID != -1 && targetNodeID != -1) {
@@ -340,7 +340,7 @@ public class TransformOWLtoGraph {
 				targetNodeID = -1;
 			}
 
-			IRI ontoIRI = onto.getOntologyID().getOntologyIRI().get();
+			IRI ontoIRI = onto.getOntologyID().getOntologyIRI().orNull();
 			if (ontoIRI == null && rdfsIsDefinedBy != null) {
 				ontoIRI = IRI.create(rdfsIsDefinedBy);
 			}
@@ -464,7 +464,7 @@ public class TransformOWLtoGraph {
 				mod.addClassThingWithDetails(0, classID, className, classIRI, classComment, definedBy, owlVersion);
 			} else {
 				// check the namespace of the class if the class is imported or not
-				IRI ontoIRI = onto.getOntologyID().getOntologyIRI().get();
+				IRI ontoIRI = onto.getOntologyID().getOntologyIRI().orNull();
 				if (ontoIRI == null && definedBy != null) {
 					ontoIRI = IRI.create(definedBy);
 				}
