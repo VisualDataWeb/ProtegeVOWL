@@ -120,7 +120,11 @@ public class TransformOWLtoGraphUtilities {
 	 * @return boolean true, if the namespace is different
 	 */
 	public boolean hasDifferentNamespace(String elementNamespace, OWLOntology onto) {
-		return hasDifferentNamespace(elementNamespace, onto.getOntologyID().getOntologyIRI().get());
+		IRI ontoIRI = onto.getOntologyID().getOntologyIRI().orNull();
+		if (ontoIRI == null) {
+			return true;
+		}
+		return hasDifferentNamespace(elementNamespace, ontoIRI);
 	}
 
 	/**
