@@ -59,6 +59,9 @@ public class GraphStorage {
 	 * @param id the viewManager id.
 	 */
 	public static void setGraph(Graph g, String id) {
+		if (_graph == null) {
+			_graph = new HashMap<String, Graph>();
+		}
 		if (!_graph.containsKey(id)) {
 			_graph.put(id, g);
 		}
