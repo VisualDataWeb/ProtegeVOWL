@@ -41,6 +41,11 @@ public class InfoPanelComponentListener implements ComponentListener {
 	public void componentResized(ComponentEvent arg0) {
 		Graph graph = GraphStorage.getGraph(viewManagerID);
 
+		if (graph == null) {
+			// Graph not yet initialised (VOWLViewComponent not yet shown) — nothing to update
+			return;
+		}
+
 		for (int i = 0; i < graph.getNodeCount(); i++) {
 			Node node = graph.getNode(i);
 			Object nodeClicked = node.get(ColumnNames.IS_CLICKED);

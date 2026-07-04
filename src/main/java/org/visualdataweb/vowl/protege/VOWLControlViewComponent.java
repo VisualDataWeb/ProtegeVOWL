@@ -10,6 +10,7 @@ import org.protege.editor.owl.ui.view.AbstractOWLViewComponent;
 import org.visualdataweb.vowl.storage.ControlViewStorage;
 import org.visualdataweb.vowl.storage.DisplayStorage;
 import org.visualdataweb.vowl.storage.GraphStorage;
+import prefuse.data.Graph;
 import org.visualdataweb.vowl.types.FontUsed;
 
 import javax.swing.*;
@@ -225,7 +226,17 @@ class enableGUIComponentsThread extends Thread {
 	@Override
 	public void run() {
 		while (!isInterrupted()) {
-			int nodeCount = GraphStorage.getGraph(viewId).getNodeCount();
+			Graph graph = GraphStorage.getGraph(viewId);
+			if (graph == null) {
+				// Graph not yet initialised (VOWLViewComponent not yet shown) — wait and retry
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					interrupt();
+				}
+				continue;
+			}
+			int nodeCount = graph.getNodeCount();
 
 			if (nodeCount != 0) {
 				renderToggleButton.setEnabled(true);
